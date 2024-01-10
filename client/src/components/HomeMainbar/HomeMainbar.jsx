@@ -1,84 +1,86 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "./HomeMainbar.css";
 import QuestionsList from "./QuestionsList";
 
 const HomeMainbar = () => {
-  var questionlist = [
-    {
-      id: 1,
-      upVotes: 3,
-      downVotes: 5,
-      noOfAnswer: 2,
-      questionTitle: "What is a function",
-      questionBody: "It meaant to be",
-      questionTags: [
-        "java",
-        "node js",
-        "react js",
-        "mogodb",
-        "express",
-        "javascript",
-      ],
-      userPosted: "Annu Khatkar",
-      askedOn: "jan 1",
-      userId: 1,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Khatkar",
-          answeredOn: "jan 2",
-          userId: 1,
-        },
-      ],
-    },
-    {
-      id: 2,
-      upVotes: 7,
-      downVotes: 3,
-      noOfAnswer: 26,
-      questionTitle: "What is a Javscript",
-      questionBody: "It meaant to be",
-      questionTags: ["java", "node js", "react js", "mogodb"],
-      userPosted: "Annu Khatkar",
-      askedOn: "jan 1",
-      userId: 2,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "kumar",
-          answeredOn: "jan 2",
-          userId: 2,
-        },
-      ],
-    },
-    {
-      id: 3,
-      upVotes: 3,
-      downVotes: 2,
-      noOfAnswer: 4,
-      questionTitle: "What is a function",
-      questionBody: "It meaant to be",
-      questionTags: ["java", "node js", "R", "Python", "react js", "mogodb"],
-      userPosted: "Annu Khatkar",
-      askedOn: "jan 1",
-      userId: 3,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Khatkar",
-          answeredOn: "jan 2",
-          userId: 3,
-        },
-      ],
-    },
-  ];
+  // var questionlist = [
+  //   {
+  //     id: 1,
+  //     upVotes: 3,
+  //     downVotes: 5,
+  //     noOfAnswer: 2,
+  //     questionTitle: "What is a function",
+  //     questionBody: "It meaant to be",
+  //     questionTags: [
+  //       "java",
+  //       "node js",
+  //       "react js",
+  //       "mogodb",
+  //       "express",
+  //       "javascript",
+  //     ],
+  //     userPosted: "Annu Khatkar",
+  //     askedOn: "jan 1",
+  //     userId: 1,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Khatkar",
+  //         answeredOn: "jan 2",
+  //         userId: 1,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     upVotes: 7,
+  //     downVotes: 3,
+  //     noOfAnswer: 26,
+  //     questionTitle: "What is a Javscript",
+  //     questionBody: "It meaant to be",
+  //     questionTags: ["java", "node js", "react js", "mogodb"],
+  //     userPosted: "Annu Khatkar",
+  //     askedOn: "jan 1",
+  //     userId: 2,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "kumar",
+  //         answeredOn: "jan 2",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 3,
+  //     upVotes: 3,
+  //     downVotes: 2,
+  //     noOfAnswer: 4,
+  //     questionTitle: "What is a function",
+  //     questionBody: "It meaant to be",
+  //     questionTags: ["java", "node js", "R", "Python", "react js", "mogodb"],
+  //     userPosted: "Annu Khatkar",
+  //     askedOn: "jan 1",
+  //     userId: 3,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Khatkar",
+  //         answeredOn: "jan 2",
+  //         userId: 3,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const user = 1;
+  const questionlist = useSelector((state) => state.questionReducer);
 
   const checkAuth = () => {
     if (user === null) {
@@ -103,11 +105,11 @@ const HomeMainbar = () => {
       </div>
 
       <div>
-        {questionlist === null ? (
+        {questionlist?.data === null ? (
           <h1>Loading...</h1>
         ) : (
           <>
-            <p>{questionlist.length} questions</p>
+            <p>{questionlist?.data.length} questions</p>
             <QuestionsList questionlist={questionlist} />
           </>
         )}

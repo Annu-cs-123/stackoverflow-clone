@@ -1,22 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 
 import Avatar from "../../components/Avatar/Avatar";
+import { deleteAnswer } from "../../actions/question";
 
-const DisplayAnswer = ({ question }) => {
+const DisplayAnswer = ({ question, handleShare }) => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.currentUserReducer);
+
+  const handleDelete = (answerId, noOfAnswer) => {
+    dispatch(deleteAnswer(id, answerId, noOfAnswer - 1));
+  };
+  console.log(user, "jkasfj");
+  console.log(question, "hello answer");
   return (
     <div>
       {question.answer.map((ans) => (
         <div className="display-ans" key={ans._id}>
           <p>{ans.answerBody}</p>
+          {console.log(ans)}
           <div className="question-actions-user">
             <div>
-              <button type="button">Share</button>
-              <button type="button">Delete</button>
+              {console.log(
+                user?.result?._id === question?.userId,
+                "jskajgfkgfhello id user"
+              )}
+              <button type="button" onClick={handleShare}>
+                Share
+              </button>
+              {user?.result?._id === question?.userId && (
+                <button
+                  type="button"
+                  onClick={() => handleDelete(ans._id, question.noOfAnswers)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
 
             <div>
-              <p>answer {ans.answeredOn}</p>
+              <p>Answer {moment(ans.answeredOn).fromNow()}</p>
               <Link
                 to={`/User/${ans.userId}`}
                 className="user-link"

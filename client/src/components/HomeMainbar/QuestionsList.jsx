@@ -5,8 +5,8 @@ import Questions from "./Questions";
 const QuestionsList = ({ questionlist }) => {
   return (
     <div>
-      {questionlist.map((question) => (
-        <Questions question={question} />
+      {questionlist?.data?.map((question, id) => (
+        <Questions key={id} question={question} />
       ))}
     </div>
   );

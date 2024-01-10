@@ -1,14 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 import "./Navbar.css";
 import logo from "../../assets/logo.png";
 import search from "../../assets/search-solid.svg";
 import Avatar from "../../components/Avatar/Avatar";
-import Button from "../Button/Button";
+import { setCurrentUser } from "../../actions/currentUser";
 
 function Navbar() {
-  var user = null;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  var user = useSelector((state) => state.currentUserReducer);
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
+    dispatch(setCurrentUser(null));
+  };
+
+  useEffect(() => {
+    // const token = user?.token;
+    // if (token) {
+    //   const decodeToken = jwtDecode(token);
+    //   if (decodeToken.exp * 1000 < new Date().getTime()) {
+    //     handleLogout();
+    //   }
+    // }
+    dispatch(setCurrentUser(JSON.parse(localStorage.getItem("Profile"))));
+  }, [dispatch]);
 
   return (
     <nav className="main-nav">
@@ -50,11 +71,13 @@ function Navbar() {
                 to="/User"
                 style={{ color: "white", textDecoration: "none" }}
               >
-                M{" "}
+                {user.result.name.charAt(0).toUpperCase()}
               </Link>
             </Avatar>
 
-            <button className="nav-item nav-links">Log out</button>
+            <button className="nav-item nav-links" onClick={handleLogout}>
+              Log out
+            </button>
           </>
         )}
       </div>
