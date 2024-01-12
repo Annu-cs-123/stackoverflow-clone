@@ -6,16 +6,17 @@ import "./App.css";
 import AllRoutes from "./AllRoutes";
 import Navbar from "./components/Navbar/Navbar";
 import { fetchAllQuestions } from "./actions/question";
-import { fetchAllUsers } from "./actions/users";
+import { fetchAllUser } from "./actions/users";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllQuestions());
-    dispatch(fetchAllUsers);
+    dispatch(fetchAllUser());
   }, [dispatch]);
 
+  console.log(fetchAllUser, "hello serliss")
   return (
     <div className="App">
       <Router>
