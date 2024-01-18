@@ -1,12 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import userRouter from "./routes/users.js";
 import questionRouter from "./routes/Questions.js";
 import answerRouter from "./routes/Answers.js";
 
 const app = express();
+dotenv.config();
 app.use(cors());
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
@@ -21,10 +23,9 @@ app.use("/answer", answerRouter);
 
 const PORT = process.env.PORT || 5000;
 
-const CONNECTION_URL =
-  "mongodb+srv://admin:admin@stack-overflow-clone.ila9sdj.mongodb.net/?retryWrites=true&w=majority";
+const DATABASE_URL = process.env.CONNECTION_URL;
 mongoose
-  .connect(CONNECTION_URL, { useNewURLParser: true, useUnifiedTopology: true })
+  .connect(DATABASE_URL, { useNewURLParser: true, useUnifiedTopology: true })
   .then(() =>
     app.listen(PORT, () => {
       console.log(`server running on port ${PORT}`);
